@@ -6,7 +6,7 @@ CPP= g++
 #	full binary code optimization
 #	full error and warning reports
 #	no range checking within BRKGA:
-CFLAGS= -O3 -fopenmp -Wextra -Wall -Weffc++ -ansi -pedantic -Woverloaded-virtual -Wcast-align -Wpointer-arith
+CFLAGS= -O3 -Wextra -Wall -Weffc++ -ansi -pedantic -Woverloaded-virtual -Wcast-align -Wpointer-arith
 
 # Compiler flags for debugging; uncomment if needed:
 #	range checking enabled in the BRKGA API
@@ -29,7 +29,7 @@ TSPInstance.o:
 	$(CPP) $(CFLAGS) -c TSPInstance.cpp
 
 TSPSolver.o:
-	$(CPP) $(CFLAGS) -c TSPSolver.cpp
+	$(CPP) $(CFLAGS) -c TSPSolver.cpp 
 
 TSPDecoder.o:
 	$(CPP) $(CFLAGS) -c TSPDecoder.cpp

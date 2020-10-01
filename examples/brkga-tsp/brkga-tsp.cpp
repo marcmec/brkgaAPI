@@ -56,21 +56,15 @@ int main(int argc, char* argv[]) {
 	const std::string instanceFile = std::string(argv[1]);
 	std::cout << "Instance file: " << instanceFile << std::endl;
 
+	std::vector<double> wtf;
 	// Read the instance:
-	TSPInstance instance(instanceFile); 	// initialize the instance
-	std::cout << "Instance read; here's the info:"
-			<< "\n\tName: " << instance.getName()
-			<< "\n\tComment: " << instance.getComment()
-			<< "\n\tDimension: " << instance.getNumNodes()
-			<< "\n\tEdge type: " << instance.getProblemType()
-			<< "\n\tEdge Weight Type: " << instance.getEdgeWeightType() << std::endl;
-
+	TSPInstance instance(instanceFile);
 	TSPDecoder decoder(instance);		// initialize the decoder
 
 	const long unsigned rngSeed = time(0);	// seed to the random number generator
 	MTRand rng(rngSeed);					// initialize the random number generator
 
-	const unsigned n = instance.getNumNodes();		// size of chromosomes
+	const unsigned n = instance.routeAgv.size();		// size of chromosomes
 	const unsigned p = 256;		// size of population
 	const double pe = 0.10;		// fraction of population to be the elite-set
 	const double pm = 0.10;		// fraction of population to be replaced by mutants
@@ -82,9 +76,9 @@ int main(int argc, char* argv[]) {
 	BRKGA< TSPDecoder, MTRand > algorithm(n, p, pe, pm, rhoe, decoder, rng, K, MAXT);
 
 	// BRKGA inner loop (evolution) configuration: Exchange top individuals
-	const unsigned X_INTVL = 100;	// exchange best individuals at every 100 generations
+	const unsigned X_INTVL = 10;	// exchange best individuals at every 100 generations
 	const unsigned X_NUMBER = 2;	// exchange top 2 best
-	const unsigned MAX_GENS = 1000;	// run for 1000 gens
+	const unsigned MAX_GENS = 100;	// run for 1000 gens
 
 	// BRKGA evolution configuration: restart strategy
 	unsigned relevantGeneration = 1;	// last relevant generation: best updated or reset called
@@ -160,7 +154,7 @@ int main(int argc, char* argv[]) {
 	 		<< bestSolution.getTourDistance() << std::endl;
 
 	// print its best tour:
-	std::cout << "Best tour:";
+	std::cout << "Best Route Begin for each agv:";
 	const std::list< unsigned > bestTour = bestSolution.getTour();
 	for(std::list< unsigned >::const_iterator pt = bestTour.begin(); pt != bestTour.end(); ++pt) {
 		std::cout << " " << *pt;

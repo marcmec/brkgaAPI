@@ -34,6 +34,12 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <list>
+#include <math.h>
+#include <queue>
+
+using namespace std;
+
 
 class TSPInstance {
 public:
@@ -41,49 +47,26 @@ public:
 
 	TSPInstance(const std::string& instanceFile) throw(Error);
 	virtual ~TSPInstance();
-
 	// Getters:
-	unsigned getNumNodes() const;
-	const std::string& getName() const;
-	const std::string& getComment() const;
-	const std::string& getProblemType() const;
-	const std::string& getEdgeWeightType() const;
-
-	// Returns the distance from node i to node j:
-	unsigned getDistance(unsigned i, unsigned j) const;
+		std::vector<double> routeAgv;
+		unsigned getSize() const;
+		unsigned getDistance(unsigned i,unsigned)const;
+		unsigned distancia;
+		unsigned targetAgv0=2;
 
 private:
-	std::string name;
-	std::string comment;
-	std::string problemType;
-	std::string edgeWeightType;
+	std::string inputs,file;
+    std::fstream readFile;
+	unsigned v0,v1;
+	double conver;
+	
+	std::list<unsigned>* listOfVertices;
+	std::vector<unsigned> listOfPositions;
+	unsigned randomPosition;
+	std::list<unsigned>:: iterator iteratorBrkga;
+	std::queue<unsigned> visitVertice0;
+	bool visitNeightborn[16];
 
-	unsigned nNodes;
-
-	class Coord2D {
-	public:
-		Coord2D() : x(0.0), y(0.0) { }
-		Coord2D(double _x, double _y) : x(_x), y(_y) {}
-
-		double getX() const { return x; }
-		double getY() const { return y; }
-
-	private:
-		double x;
-		double y;
-	};
-
-	std::vector< Coord2D > nodeCoords;
-
-	void readName(const std::string& line) throw(Error);
-	void readComment(const std::string& line) throw(Error);
-	void readProblemType(const std::string& line) throw(Error);
-	void readDimension(const std::string& line) throw(Error);
-	void readEdgeWeightType(const std::string& line) throw(Error);
-
-	void readNodeCoords(const std::string& line) throw(Error);
-	bool isEOF(const std::string& line) const;
-	void trim(std::string& str) const;
 };
 
 #endif

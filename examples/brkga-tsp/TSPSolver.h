@@ -8,11 +8,14 @@
 #ifndef TSPSOLVER_H
 #define TSPSOLVER_H
 
-#include <list>
+#include <cmath>
+#include <cstdlib>
+#include <stdexcept>
 #include <limits>
 #include <vector>
 #include <algorithm>
 #include "TSPInstance.h"
+
 
 class TSPSolver {
 public:
@@ -20,15 +23,17 @@ public:
 	// a tour (by getting a permutation out of the chromosome):
 	TSPSolver(const TSPInstance& instance, const std::vector< double >& chromosome);
 	virtual ~TSPSolver();
-
+	unsigned tourSize;
 	unsigned getTourDistance() const;		// Returns the tour distance
 	std::list< unsigned > getTour() const;	// Returns the tour (first node not copied in the end)
-
 private:
 	typedef std::pair< double, unsigned > ValueKeyPair;
 
 	unsigned distance;
 	std::vector< ValueKeyPair > tour;
+	
+
+	
 };
 
 #endif

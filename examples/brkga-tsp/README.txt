@@ -4,7 +4,7 @@ To recompile and run the program, type:
 	cd ./examples/brkga-tsp
 	make clean
 	make
-	./brkga-tsp tsplib/brd14051.tsp
+	./brkga-tsp maze.txt
 
 The problem instance is specified on the command line (brd14051.tsp) and follows the TSPLib format,
 see http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/

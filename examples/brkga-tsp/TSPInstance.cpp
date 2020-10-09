@@ -11,13 +11,11 @@
 #include <iostream>
 #include <sstream>
 using namespace std;
-/*
 
-código para maze 3x3
-*/
+TSPInstance::TSPInstance(const std::string& instanceFile) throw(TSPInstance::Error){ 
+    //9 para 3x3 e 16 para 4x4
+   
 
-TSPInstance::TSPInstance(const std::string& instanceFile) throw(TSPInstance::Error):distancia(0){ //9 para 3x3 e 16 para 4x4
-    unsigned destiny=0;
     readFile.open(instanceFile);
     if(readFile){
         while (getline(readFile,inputs))
@@ -44,45 +42,49 @@ TSPInstance::TSPInstance(const std::string& instanceFile) throw(TSPInstance::Err
             listOfVertices[v1].push_back(v0);
             listOfPositions.erase(listOfPositions.begin(), listOfPositions.begin()+1);
         }
-        for(unsigned i=0;i<16;i++){
-            visitNeightborn[i]=false;
-        }
-        visitNeightborn[destiny]=true;
-        routeAgv.push_back(destiny);
-        while(true){
-            for(iteratorBrkga= listOfVertices[destiny].begin();iteratorBrkga!= listOfVertices[destiny].end();iteratorBrkga++){
-                if(!visitNeightborn[*iteratorBrkga]&& destiny!= targetAgv0){
-                    visitNeightborn[*iteratorBrkga]=true;
-                    visitVertice0.push(*iteratorBrkga);
-                    routeAgv.push_back(*iteratorBrkga);
-                    distancia++;
-                }
-            }
-            if(!visitVertice0.empty()){
-                destiny=visitVertice0.front();
-                visitVertice0.pop();  
-            }
-            else
-            {
-                break;
-            }
-         
-        }
-
-        for(int i=0;i<routeAgv.size();i++)
-        cout<<routeAgv[i]<<" ";
     
-
-}	
-
+    xI.push_back(0);
+    xI.push_back(3);
+    xI.push_back(15);
+    xI.push_back(12);
+   
+}
+    
 TSPInstance::~TSPInstance() { }
 
-unsigned TSPInstance::getSize()const{ return routeAgv.size();}
+unsigned TSPInstance::getDistance(unsigned i, unsigned j)const{
+    vector<vector<unsigned> > listaVectors;
+	list<unsigned>:: iterator findPathForAgv;
+    queue<unsigned> backTrack;
+    bool agvVisit[16];
+    for(unsigned i=0;i<16;i++)
+    agvVisit[i]=false;
+	unsigned getTargetAgv=9;	
+	vector<unsigned> listAgvVisited;
+    unsigned something=0;
+	listAgvVisited.push_back(something);
+	agvVisit[something]=true;
+	 while(true){ 
+        for(findPathForAgv= listOfVertices[something].begin();findPathForAgv!= listOfVertices[something].end();findPathForAgv++){
+            if(!agvVisit[*findPathForAgv] && *findPathForAgv!=getTargetAgv && *findPathForAgv != j){
+                agvVisit[*findPathForAgv]=true;
+                listAgvVisited.push_back(*findPathForAgv);
+                backTrack.push(*findPathForAgv);
+            }
+            listaVectors.push_back(listAgvVisited);
+        }
+        if(!backTrack.empty()){
+            something=backTrack.front();
+            backTrack.pop();
+        }else{
 
-unsigned TSPInstance::getDistance(unsigned i,unsigned j)const{
-    
-    const unsigned range= pow(routeAgv[i]-routeAgv[j],2.0);
+            break;
+            }
 
+    	}
+        const unsigned k= listaVectors[i].size();
+        
 
-    return range;
+    return k;
+
 }

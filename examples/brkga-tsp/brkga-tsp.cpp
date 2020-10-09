@@ -44,12 +44,11 @@
 #include "TSPSolver.h"
 #include "TSPDecoder.h"
 #include "TSPInstance.h"
-
 int main(int argc, char* argv[]) {
 	if(argc < 2) { std::cerr << "usage: <TSPLIB-file>" << std::endl; return -1; }
 
 	std::cout << "Welcome to the BRKGA API sample driver.\nFinding a (heuristic) minimizer for "
-			<< " the TSP." << std::endl;
+			<< " the MPP." << std::endl;
 
 	const clock_t begin = clock();
 
@@ -63,8 +62,8 @@ int main(int argc, char* argv[]) {
 
 	const long unsigned rngSeed = time(0);	// seed to the random number generator
 	MTRand rng(rngSeed);					// initialize the random number generator
-
-	const unsigned n = instance.routeAgv.size();		// size of chromosomes
+	
+	const unsigned n = instance.xI.size();		// size of chromosomes
 	const unsigned p = 256;		// size of population
 	const double pe = 0.10;		// fraction of population to be the elite-set
 	const double pm = 0.10;		// fraction of population to be replaced by mutants

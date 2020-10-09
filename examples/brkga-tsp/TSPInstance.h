@@ -37,9 +37,9 @@
 #include <list>
 #include <math.h>
 #include <queue>
+#include "TSPInstance.h"
 
 using namespace std;
-
 
 class TSPInstance {
 public:
@@ -48,25 +48,16 @@ public:
 	TSPInstance(const std::string& instanceFile) throw(Error);
 	virtual ~TSPInstance();
 	// Getters:
-		std::vector<double> routeAgv;
-		unsigned getSize() const;
-		unsigned getDistance(unsigned i,unsigned)const;
-		unsigned distancia;
-		unsigned targetAgv0=2;
-
+		vector<unsigned> xI;
+		std::list<unsigned>* listOfVertices;
+		std::vector<unsigned> listOfPositions;
+		unsigned getDistance(unsigned i, unsigned j) const;
 private:
 	std::string inputs,file;
     std::fstream readFile;
 	unsigned v0,v1;
-	double conver;
-	
-	std::list<unsigned>* listOfVertices;
-	std::vector<unsigned> listOfPositions;
-	unsigned randomPosition;
-	std::list<unsigned>:: iterator iteratorBrkga;
-	std::queue<unsigned> visitVertice0;
-	bool visitNeightborn[16];
-
+	double conver;	
+  
 };
 
 #endif

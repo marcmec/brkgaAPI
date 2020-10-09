@@ -13,34 +13,28 @@
 #include <time.h>
 #include <iostream>
 using namespace std;
+
 TSPSolver::TSPSolver(const TSPInstance& instance, const std::vector< double >& chromosome) :
-		distance(0), tour(instance.getSize()) {
-		
-    for(unsigned i = 0; i < chromosome.size(); ++i) {tour[i] = ValueKeyPair(chromosome[i], i);}
+		distance(0), tour(instance.xI.size()) {
+  
 
+    for(unsigned i = 0; i < chromosome.size(); ++i) {tour[i] = ValueKeyPair(chromosome[i], instance.xI[i]);}
+    std::sort(tour.begin(), tour.end());
 
-	std::sort(tour.begin(), tour.end());
+    for(int i=1;i<tour.size();i++){
 
-/*
-	//se todos os agvs chegaram no alvo
-	while(instance.finished()){
+        const unsigned& first= tour[i-1].second;
+        const unsigned& next= tour[i].second;
 
-   		for(unsigned i=0;i<tour.size();i++){
+        distance+= instance.getDistance(first,next);
 
-			
-			sol.roboWalk(tour[i].second);
+    }
 
-   		}
-
-	}
-
-		distance+= sol.distanciapercorrida();
-       */
 }
 
 TSPSolver::~TSPSolver() {}
 
-unsigned TSPSolver::getTourDistance() const { return distance; } //distancia percorrida
+unsigned TSPSolver::getTourDistance() const { return distance; }
 
 std::list< unsigned > TSPSolver::getTour() const {
 	std::list< unsigned > tourSequence;

@@ -26,12 +26,13 @@ public:
 	unsigned tourSize;
 	unsigned getTourDistance() const;		// Returns the tour distance
 	std::list< unsigned > getTour() const;	// Returns the tour (first node not copied in the end)
+
+	unsigned pegaDistancia(unsigned i, unsigned j);
 private:
 	typedef std::pair< double, unsigned > ValueKeyPair;
 
 	unsigned distance;
 	std::vector< ValueKeyPair > tour;
-	
 
 	
 };
